@@ -6,7 +6,7 @@ public class AlgorithmResult {
     private int pasos;
     private long tiempoEjecucion;
     private String fecha;
-
+//
     public AlgorithmResult(String nombreAlgoritmo, int pasos, long tiempoEjecucion, String fecha) {
         this.nombreAlgoritmo = nombreAlgoritmo;
         this.pasos = pasos;
