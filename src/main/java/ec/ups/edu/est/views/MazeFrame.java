@@ -118,7 +118,7 @@ public class MazeFrame extends JFrame {
         inferior.setBackground(new Color(235, 232, 222));
 
         comboAlgoritmos = new JComboBox<>(new String[]{
-                "Recursivo", "BFS", "DFS", "Recursivo 4D", "Recursivo 4D + BT"
+                "Recursivo", "BFS", "DFS", "Recursivo 4D", "Recursivo 4D + BT", "Backtracking"
         });
         comboAlgoritmos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         JComboBox<String> combo = new JComboBox<>(new String[]{"Recursivo", "Recursivo Completo", "Recursivo Completo BT", "BFS", "DFS","Backtracking"});

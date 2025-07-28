@@ -42,6 +42,7 @@ public class MazeController {
             case "Recursivo" -> new MazeSolverRecursivo();
             case "Recursivo 4D" -> new MazeSolverRecursivoCompleto();
             case "Recursivo 4D + BT" -> new MazeSolverRecursivoCompletoBT();
+            case "Backtracking" -> new Backtracking();
             default -> null;
         };
 
