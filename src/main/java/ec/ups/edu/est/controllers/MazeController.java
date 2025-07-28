@@ -2,12 +2,14 @@ package ec.ups.edu.est.controllers;
 
 import ec.ups.edu.est.dao.AlgorithmResultDAO;
 import ec.ups.edu.est.dao.impl.AlgorithmResultDAOFile;
+import ec.ups.edu.est.models.AlgorithmResult;
 import ec.ups.edu.est.models.Cell;
 import ec.ups.edu.est.models.CellState;
-import ec.ups.edu.est.solver.impl.MazeSolverBFS;
-import ec.ups.edu.est.solver.impl.MazeSolverDFS;
-import ec.ups.edu.est.solver.impl.MazeSolverRecursivo;
+import ec.ups.edu.est.models.SolveResults;
+import ec.ups.edu.est.solver.MazeSolver;
+import ec.ups.edu.est.solver.impl.*;
 import ec.ups.edu.est.views.MazePanel;
+import ec.ups.edu.est.views.ResultsDialog;
 
 import javax.swing.*;
 import java.time.LocalDate;

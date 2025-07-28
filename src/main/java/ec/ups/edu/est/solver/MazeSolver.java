@@ -1,8 +1,9 @@
 package ec.ups.edu.est.solver;
 
-import models.Cell;
-import models.CellState;
-import models.SolveResults;
+
+import ec.ups.edu.est.models.Cell;
+import ec.ups.edu.est.models.CellState;
+import ec.ups.edu.est.models.SolveResults;
 
 public interface MazeSolver {
     SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin);

@@ -4,7 +4,7 @@ import ec.ups.edu.est.models.Cell;
 import ec.ups.edu.est. models.CellState;
 import ec.ups.edu.est.models.SolveResults;
 import ec.ups.edu.est.solver.MazeSolver;
-import ec.ups.edu.est.solver.Impl.*;
+import ec.ups.edu.est.solver.impl.*;
 
 import javax.swing.*;
 import java.awt.*;
