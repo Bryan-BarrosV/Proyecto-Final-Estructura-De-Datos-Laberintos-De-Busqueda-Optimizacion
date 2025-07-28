@@ -1,13 +1,19 @@
 package ec.ups.edu.est.views;
+
 import ec.ups.edu.est.controllers.MazeController;
+import ec.ups.edu.est.models.AlgorithmResult;
 import ec.ups.edu.est.models.Cell;
-import ec.ups.edu.est. models.CellState;
+import ec.ups.edu.est.models.CellState;
 import ec.ups.edu.est.models.SolveResults;
 import ec.ups.edu.est.solver.MazeSolver;
 import ec.ups.edu.est.solver.impl.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
 
 public class MazeFrame extends JFrame {
 
@@ -15,6 +21,8 @@ public class MazeFrame extends JFrame {
     private MazeController controlador;
     private JComboBox<String> comboAlgoritmos;
     private JButton btnResolver, btnPaso, btnLimpiar;
+    private ResultadosGuardadosDialog dialogResultados;
+
 
     public MazeFrame() {
         setTitle("Laberinto Interactivo");
@@ -26,6 +34,16 @@ public class MazeFrame extends JFrame {
         getContentPane().setBackground(new Color(250, 248, 240));
         getContentPane().setBackground(new Color(250, 248, 240));
         setJMenuBar(crearMenu());
+
+        dialogResultados = new ResultadosGuardadosDialog(this);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                dialogResultados.guardarResultadosEnCSV("resultados.csv");
+            }
+        });
+
 
         pedirDimensiones();
         crearMazePanel();
@@ -39,14 +57,62 @@ public class MazeFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu menuArchivo = new JMenu("Archivo");
+
+        JMenuItem nuevoLaberintoItem = new JMenuItem("Agregar nuevo laberinto");
+        nuevoLaberintoItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String filasStr = JOptionPane.showInputDialog(MazeFrame.this, "Ingrese número de filas:");
+                String columnasStr = JOptionPane.showInputDialog(MazeFrame.this, "Ingrese número de columnas:");
+                try {
+                    int nuevasFilas = Integer.parseInt(filasStr);
+                    int nuevasColumnas = Integer.parseInt(columnasStr);
+
+                    getContentPane().removeAll();
+
+                    filas = nuevasFilas;
+                    columnas = nuevasColumnas;
+
+                    crearMazePanel();
+                    add(crearPanelLateral(), BorderLayout.WEST);
+                    add(crearPanelInferior(), BorderLayout.SOUTH);
+
+                    JScrollPane scroll = new JScrollPane(mazePanel);
+                    scroll.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                    add(scroll, BorderLayout.CENTER);
+                    revalidate();
+                    repaint();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(MazeFrame.this, "Dimensiones inválidas.");
+                }
+            }
+
+        });
+
+        JMenuItem verResultadosItem = new JMenuItem("Ver tiempos de ejecución");
+        verResultadosItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dialogResultados.setVisible(true);
+            }
+        });
+
+
         JMenuItem salirItem = new JMenuItem("Salir");
-        salirItem.addActionListener(e -> System.exit(0));
+        salirItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        menuArchivo.add(nuevoLaberintoItem);
+        menuArchivo.add(verResultadosItem);
+        menuArchivo.addSeparator();
         menuArchivo.add(salirItem);
 
         JMenu menuAyuda = new JMenu("Ayuda");
         JMenuItem autoresItem = new JMenuItem("Acerca de los autores");
-        autoresItem.addActionListener(e -> {
-            String mensaje = """
+        autoresItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String mensaje = """
                 Proyecto: Laberinto 
                 Autores:
                 - Valeria Borja - DianitaB
@@ -56,14 +122,16 @@ public class MazeFrame extends JFrame {
 
                 ¡Gracias por utilizar nuestra aplicación!
                 """;
-            JOptionPane.showMessageDialog(this, mensaje, "Información del Proyecto", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(MazeFrame.this, mensaje, "Información del Proyecto", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
         menuAyuda.add(autoresItem);
-
         menuBar.add(menuArchivo);
         menuBar.add(menuAyuda);
         return menuBar;
     }
+
+
 
 
     private int filas, columnas;
@@ -127,20 +195,48 @@ public class MazeFrame extends JFrame {
         JButton btnPaso = crearBotonPlano("Paso a paso", new Color(255, 165, 0));
         JButton btnLimpiar = crearBotonPlano("Limpiar", new Color(105, 105, 105));
 
-        btnResolver = crearBotonPlano("🧠 Resolver", new Color(60, 179, 113));
-        btnPaso = crearBotonPlano("👣 Paso a paso", new Color(255, 165, 0));
-        btnLimpiar = crearBotonPlano("🧼 Limpiar", new Color(105, 105, 105));
+        btnResolver = crearBotonPlano("Resolver", new Color(60, 179, 113));
+        btnPaso = crearBotonPlano("Paso a paso", new Color(255, 165, 0));
+        btnLimpiar = crearBotonPlano("Limpiar", new Color(105, 105, 105));
 
-        // Lógica del botón Resolver
-        btnResolver.addActionListener(e -> {
-            String algoritmo = (String) comboAlgoritmos.getSelectedItem();
-            controlador.resolverLaberinto(algoritmo);
+        btnResolver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String algoritmo = (String) comboAlgoritmos.getSelectedItem();
+                CellState[][] matriz = mazePanel.getMatrizEstados();
+                Cell inicio = mazePanel.getInicio();
+                Cell fin = mazePanel.getFin();
+
+                if (inicio == null || fin == null) {
+                    JOptionPane.showMessageDialog(MazeFrame.this, "Debes marcar un punto de inicio (🟢) y uno de fin (🔴).");
+                    return;
+                }
+
+                MazeSolver solver = switch (algoritmo) {
+                    case "BFS" -> new MazeSolverBFS();
+                    case "DFS" -> new MazeSolverDFS();
+                    case "Recursivo" -> new MazeSolverRecursivo();
+                    case "Recursivo 4D" -> new MazeSolverRecursivoCompleto();
+                    case "Recursivo 4D + BT" -> new MazeSolverRecursivoCompletoBT();
+                    default -> null;
+                };
+
+                if (solver == null) {
+                    JOptionPane.showMessageDialog(MazeFrame.this, "Algoritmo no válido.");
+                    return;
+                }
+
+                SolveResults res = solver.resolver(matriz, inicio, fin);
+                mazePanel.pintarSolucion(res.getCamino());
+
+                String fecha = java.time.LocalDateTime.now().toString();
+                AlgorithmResult r = new AlgorithmResult(algoritmo, res.getCamino().size(), res.getTiempoEjecucion(), fecha);
+                dialogResultados.agregarResultado(r);
+            }
         });
 
-        // Lógica del botón Limpiar
+
         btnLimpiar.addActionListener(e -> mazePanel.limpiar());
 
-        // Lógica del botón Paso a paso
         btnPaso.addActionListener(e -> {
             String algoritmo = (String) comboAlgoritmos.getSelectedItem();
             CellState[][] matriz = mazePanel.getMatrizEstados();
