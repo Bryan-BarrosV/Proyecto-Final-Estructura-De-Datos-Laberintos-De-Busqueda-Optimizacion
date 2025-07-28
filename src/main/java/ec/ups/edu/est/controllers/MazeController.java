@@ -6,6 +6,7 @@ import ec.ups.edu.est.models.Cell;
 import ec.ups.edu.est.models.CellState;
 import ec.ups.edu.est.solver.impl.MazeSolverBFS;
 import ec.ups.edu.est.solver.impl.MazeSolverDFS;
+import ec.ups.edu.est.solver.impl.MazeSolverRecursivo;
 import ec.ups.edu.est.views.MazePanel;
 
 import javax.swing.*;
