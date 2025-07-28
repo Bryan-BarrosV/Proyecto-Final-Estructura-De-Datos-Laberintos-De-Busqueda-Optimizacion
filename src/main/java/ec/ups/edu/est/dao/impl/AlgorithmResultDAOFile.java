@@ -31,7 +31,7 @@ public class AlgorithmResultDAOFile implements AlgorithmResultDAO {
     @Override
     public void guardar(AlgorithmResult resultado) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo, true))) {
-            writer.println(resultado.toString()); // usa el .toString() de AlgorithmResult
+            writer.println(resultado.toString());
         }
     }
 
@@ -40,7 +40,7 @@ public class AlgorithmResultDAOFile implements AlgorithmResultDAO {
         List<AlgorithmResult> resultados = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
-            reader.readLine(); // saltar encabezado
+            reader.readLine();
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(";");
                 if (partes.length == 4) {
