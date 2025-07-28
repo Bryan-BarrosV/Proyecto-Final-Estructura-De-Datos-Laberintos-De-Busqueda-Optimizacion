@@ -17,7 +17,7 @@ public class Backtracking implements MazeSolver {
             {-1, 0}, {1, 0}, {0, -1}, {0, 1}
     };
 
-    private boolean[][] visitado;
+    private boolean[][]  visitado;
     private List<Cell> mejorCamino;
     private List<Cell> caminoActual;
     private MazePanel mazePanel;

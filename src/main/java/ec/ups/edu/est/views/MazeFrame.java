@@ -17,7 +17,7 @@ public class MazeFrame extends JFrame {
     private JButton btnResolver, btnPaso, btnLimpiar;
 
     public MazeFrame() {
-        setTitle("Laberinto Interactivo");
+        setTitle("Laberinto  Interactivo");
         setSize(1000, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
