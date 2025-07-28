@@ -88,7 +88,6 @@ public class MazePanel extends JPanel {
         }
     }
 
-    // Devuelve el estado actual de cada celda del laberinto
     public CellState[][] getMatrizEstados() {
         CellState[][] matriz = new CellState[filas][columnas];
         for (int i = 0; i < filas; i++) {
