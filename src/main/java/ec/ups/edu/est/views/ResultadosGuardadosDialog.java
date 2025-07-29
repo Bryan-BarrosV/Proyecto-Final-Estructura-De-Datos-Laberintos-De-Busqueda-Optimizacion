@@ -13,14 +13,23 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que representa una ventana para mostrar los resultados guardados
+ */
 public class ResultadosGuardadosDialog extends JDialog {
 
     private final DefaultTableModel modelo;
     private final JTable tabla;
     private final List<AlgorithmResult> resultados;
 
+    /**
+     * Constructor en el que se configura el diseño de la ventana, la tabla, los botones y
+     * la lista para almacenar los resultados.
+     *
+     * @param parent
+     */
     public ResultadosGuardadosDialog(JFrame parent) {
-        super(parent, "📊 Resultados Guardados", true);
+        super(parent, "Resultados Guardados", true);
         setSize(650, 350);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
@@ -31,9 +40,9 @@ public class ResultadosGuardadosDialog extends JDialog {
         tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
 
-        JButton btnGraficar = new JButton("📈 Graficar Resultados");
-        JButton btnLimpiar = new JButton("🧹 Limpiar Resultados");
-        JButton btnCerrar = new JButton("❌ Cerrar");
+        JButton btnGraficar = new JButton("Graficar Resultados");
+        JButton btnLimpiar = new JButton("Limpiar Resultados");
+        JButton btnCerrar = new JButton("Cerrar");
 
         btnGraficar.addActionListener(e -> mostrarGrafica());
         btnLimpiar.addActionListener(e -> limpiarResultados());
@@ -48,6 +57,11 @@ public class ResultadosGuardadosDialog extends JDialog {
         add(panelBotones, BorderLayout.SOUTH);
     }
 
+    /**
+     * Método que permite agregar un nuevo resultado a la tabla y a la lista.
+     *
+     * @param r el resultado del algoritmo ejecutado
+     */
     public void agregarResultado(AlgorithmResult r) {
         resultados.add(r);
         modelo.addRow(new Object[]{
@@ -58,6 +72,11 @@ public class ResultadosGuardadosDialog extends JDialog {
         });
     }
 
+
+    /**
+     * Método que permite guardar los resultados en un archivo CSV
+     * @param rutaArchivo ruta del archivo .csv
+     */
     public void guardarResultadosEnCSV(String rutaArchivo) {
         try (PrintWriter writer = new PrintWriter(rutaArchivo)) {
             writer.println("Algoritmo,Pasos,Tiempo (ms),Fecha");
@@ -68,18 +87,24 @@ public class ResultadosGuardadosDialog extends JDialog {
                         r.getTiempoEjecucion(),
                         r.getFecha());
             }
-            System.out.println("✅ Resultados guardados en: " + rutaArchivo);
+            System.out.println("Resultados guardados en: " + rutaArchivo);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al guardar resultados.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Limpia tanto la tabla como la lista interna de los resultados.
+     */
     private void limpiarResultados() {
         resultados.clear();
         modelo.setRowCount(0);
     }
 
+    /**
+     * Método que genera una grafica de líneas con los tiempos de ejecución.
+     */
     private void mostrarGrafica() {
         if (resultados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay resultados para graficar.");
@@ -108,4 +133,3 @@ public class ResultadosGuardadosDialog extends JDialog {
 
     }
 }
-

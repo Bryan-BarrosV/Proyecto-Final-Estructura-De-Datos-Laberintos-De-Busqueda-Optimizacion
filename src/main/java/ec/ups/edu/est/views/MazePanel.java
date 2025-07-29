@@ -7,13 +7,22 @@ import ec.ups.edu.est.models.CellState;
 
 import java.awt.*;
 
+/**
+ * Clase que representa el panel donde se visualiza el laberinto completo.
+ */
 public class MazePanel extends JPanel {
 
     private final int filas;
     private final int columnas;
     private final JButton[][] celdas;
+    // Modo establecido por defecto "WALL" (muro)
     private String modo = "WALL";
 
+    /**
+     * Constructor donde inicializo el panel y su matriz de botones.
+     * @param filas número de filas del laberinto
+     * @param columnas número de columnas del laberinto
+     */
     public MazePanel(int filas, int columnas) {
         this.filas = filas;
         this.columnas = columnas;
@@ -23,6 +32,11 @@ public class MazePanel extends JPanel {
         inicializar();
     }
 
+    /**
+     * Método que recorre cada posición de la matriz y crea un bóton.
+     * Asigna colores iniciales y un listener que permite cambiar su estado.
+     * dependiendo del modo actual (inicio, fin, muro).
+     */
     private void inicializar() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -41,11 +55,19 @@ public class MazePanel extends JPanel {
         }
     }
 
-
+    /**
+     * Permite establecer el modo actual que se usará al hacer clic en una celda.
+     * Puede ser START, END o WALL.
+     * @param modo nuevo modo seleccionado por el usuario
+     */
     public void setModo(String modo) {
         this.modo = modo;
     }
 
+    /**
+     * Este método se activa cuando el usuario hace clic en una celda.
+     * Cambia el color y estado de la cela según el modo actual.
+     */
     private void actualizarCelda(int i, int j) {
         JButton celda = celdas[i][j];
         switch (modo) {
@@ -59,7 +81,7 @@ public class MazePanel extends JPanel {
                 break;
             case "WALL":
                 if (celda.getBackground().equals(Color.BLACK)) {
-                    celda.setBackground(Color.WHITE); // desactiva muro
+                    celda.setBackground(Color.WHITE);
                 } else {
                     celda.setBackground(Color.BLACK);
                 }
@@ -67,6 +89,11 @@ public class MazePanel extends JPanel {
         }
     }
 
+    /**
+     * Este método limpia cualquier celda que tenga color del tipo indicado.
+     * Lo uso para asegurar que solo haya un inicio (verde) o un fin (rojo).
+     * @param tipo
+     */
     private void limpiarColor(CellState tipo) {
         Color color = tipo == CellState.START ? Color.GREEN : Color.RED;
         for (int i = 0; i < filas; i++) {
@@ -78,8 +105,10 @@ public class MazePanel extends JPanel {
         }
     }
 
-
-
+    /**
+     * Este método limpia todo el laberinto, dejando todas las celdas en blanco
+     * Se hace uso de este cuando se presiona el botón "Limpiar".
+     */
     public void limpiar() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -88,6 +117,11 @@ public class MazePanel extends JPanel {
         }
     }
 
+    /**
+     * Devuelve una matriz con los estados de todas las celdas de los laberintos.
+     * basándose en el color actual de cada celda.
+     * @return matriz de estados (WALL, START, END, EMPTY)
+     */
     public CellState[][] getMatrizEstados() {
         CellState[][] matriz = new CellState[filas][columnas];
         for (int i = 0; i < filas; i++) {
@@ -108,6 +142,10 @@ public class MazePanel extends JPanel {
     }
 
 
+    /**
+     * Busca la celda que está marcada como inicio (color verde).
+     * @return objeto Cell que representa el punto de inicio
+     */
     public Cell getInicio() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -119,7 +157,10 @@ public class MazePanel extends JPanel {
         return null;
     }
 
-
+    /**
+     * Busca la celda que está marcada como fin (color rojo).
+     * @return objeto Cell que representa el punto de fin
+     */
     public Cell getFin() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -131,6 +172,10 @@ public class MazePanel extends JPanel {
         return null;
     }
 
+    /**
+     * Pinta el camino resultante de un algoritmo de búsqueda.
+     * @param camino lista de celdas que representan el camino a seguir.
+     */
     public void pintarSolucion(java.util.List<Cell> camino) {
         for (Cell celda : camino) {
             int i = celda.getFila();
@@ -143,15 +188,25 @@ public class MazePanel extends JPanel {
         }
     }
 
+    /**
+     * Retorna el color actual de una celda específica.
+     * @param i fila
+     * @param j columna
+     * @return color actual de la celda.
+     */
     public Color getCeldaColor(int i, int j) {
         return celdas[i][j].getBackground();
     }
 
+    /**
+     * Cambia el color de una celda específica
+     * @param i fila
+     * @param j columna
+     * @param color Color que se quiere establecer
+     */
     public void setCeldaColor(int i, int j, Color color) {
         celdas[i][j].setBackground(color);
         celdas[i][j].setOpaque(true);
         celdas[i][j].setBorderPainted(false);
     }
-
 }
-

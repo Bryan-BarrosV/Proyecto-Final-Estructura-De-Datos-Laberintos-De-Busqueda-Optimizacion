@@ -48,7 +48,7 @@ public class SolveResults {
     }
 
     /**
-     * @return Tiempo total de ejecución en milisegundos.
+     * @return Tiempo total de ejecución en nanosegundos.
      */
     public long getTiempoEjecucion() {
         return tiempoEjecucion;
