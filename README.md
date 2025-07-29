@@ -8,7 +8,7 @@
 
 **Integrantes:** Keyra Carvajal / Diana Borja / Bryan Barros / Erika Collaguazo
 
-**Correo institucional:**  ----@est.ups.edu.ec /  ----@est.ups.edu.ec /  ----@est.ups.edu.ec / ecollaguazo@est.ups.edu.ec
+**Correo institucional:**  kcarvajalc5@est.ups.edu.ec /  ----@est.ups.edu.ec /  ----@est.ups.edu.ec / ecollaguazo@est.ups.edu.ec
 
 ---
 
@@ -75,12 +75,38 @@ Algoritmo de exploración exhaustiva que prueba todas las rutas posibles. Marca 
 - **Laberinto 2
 
 
-### Ejemplo de código:
+## Ejemplo de código:
+### Algoritmo Backtracking
+![Imagen 1](Backtracking1.png)
+![Imagen 2](Backtracking2.png)
+![Imagen 3](Backtracking3.png)
+![Imagen 4](Backtracking4.png)
 
--
--
--
+### Explicación
+
+El algoritmo Backtracking es una técnica de búsqueda que explora todas las posibles rutas 
+dentro de un laberinto, avanzando celda por celda desde un punto de inicio hasta un punto de fin. 
+Si encuentra una pared, un límite o un camino sin salida, retrocede y prueba otra alternativa. 
+En esta implementación se optimiza el recorrido mediante programación dinámica (memoización), 
+lo que permite guardar el número mínimo de pasos necesarios desde cada celda hasta el destino, 
+evitando recalcular trayectorias ya procesadas. El algoritmo construye el camino óptimo desde el 
+inicio hasta el final y también registra el recorrido completo para fines de visualización. 
+Es útil tanto para encontrar soluciones eficientes como para representar visualmente cómo el 
+sistema explora el laberinto, mostrando primero el recorrido en gris y luego el camino final en azul.
+
 ---
+### Algoritmo BFS (Breadth-First Search)
+![BFS paso 1](BFS1.png)
+![BFS paso 2](BFS2.png)
+![BFS paso 3](BFS3.png)
+![BFS paso 4](BFS4.png)
+### Explicación
+BFS (Breadth-First Search) o Búsqueda en Anchura es un algoritmo que recorre el laberinto 
+expandiendo primero todas las celdas cercanas al punto de inicio antes de avanzar más lejos. 
+Explora el laberinto por niveles, utilizando una cola (FIFO) para registrar los caminos por visitar.
+A diferencia de Backtracking, BFS siempre encuentra el camino más corto en términos de cantidad de 
+celdas visitadas, aunque no sigue una ruta visualmente directa. Es ideal para representar soluciones
+rápidas y eficientes, especialmente cuando se necesita minimizar la distancia desde el origen al destino.
 
 ## 4. Conclusiones por estudiantes
 
