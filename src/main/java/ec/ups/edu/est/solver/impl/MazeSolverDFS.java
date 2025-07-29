@@ -16,6 +16,8 @@ public class MazeSolverDFS implements MazeSolver {
 
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
+        long t0 = System.currentTimeMillis();
+
         filas = laberinto.length;
         columnas = laberinto[0].length;
         visitado = new boolean[filas][columnas];
@@ -33,7 +35,10 @@ public class MazeSolverDFS implements MazeSolver {
             }
         }
 
-        return new SolveResults(camino, pasos, 0); // el tiempo lo mide el botón
+        long t1 = System.currentTimeMillis();
+        long tiempoTotal = t1 - t0;
+
+        return new SolveResults(camino, pasos, tiempoTotal);
     }
 
     private boolean dfs(CellState[][] laberinto, Cell actual, Cell fin) {

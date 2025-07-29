@@ -17,6 +17,8 @@ public class MazeSolverRecursivoCompletoBT implements MazeSolver {
 
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
+        long inicioTiempo = System.currentTimeMillis();
+
         filas = laberinto.length;
         columnas = laberinto[0].length;
         visitado = new boolean[filas][columnas];
@@ -25,7 +27,10 @@ public class MazeSolverRecursivoCompletoBT implements MazeSolver {
         List<Cell> rutaActual = new ArrayList<>();
         buscar(laberinto, inicio.getFila(), inicio.getColumna(), fin, rutaActual);
 
-        return new SolveResults(mejorRuta, mejorRuta.size(), 0); // el tiempo lo mide el botón
+        long finTiempo = System.currentTimeMillis();
+        long tiempoTotal = finTiempo - inicioTiempo;
+
+        return new SolveResults(mejorRuta, mejorRuta.size(), tiempoTotal);
     }
 
     private void buscar(CellState[][] laberinto, int i, int j, Cell fin, List<Cell> rutaActual) {
@@ -37,16 +42,16 @@ public class MazeSolverRecursivoCompletoBT implements MazeSolver {
 
         if (i == fin.getFila() && j == fin.getColumna()) {
             if (mejorRuta.isEmpty() || rutaActual.size() < mejorRuta.size()) {
-                mejorRuta = new ArrayList<>(rutaActual); // copiamos la ruta más corta
+                mejorRuta = new ArrayList<>(rutaActual);
             }
         } else {
-            buscar(laberinto, i - 1, j, fin, rutaActual); // arriba
-            buscar(laberinto, i + 1, j, fin, rutaActual); // abajo
-            buscar(laberinto, i, j - 1, fin, rutaActual); // izquierda
-            buscar(laberinto, i, j + 1, fin, rutaActual); // derecha
+
+            buscar(laberinto, i - 1, j, fin, rutaActual);
+            buscar(laberinto, i + 1, j, fin, rutaActual);
+            buscar(laberinto, i, j - 1, fin, rutaActual);
+            buscar(laberinto, i, j + 1, fin, rutaActual);
         }
 
-        // backtrack
         rutaActual.remove(rutaActual.size() - 1);
         visitado[i][j] = false;
     }

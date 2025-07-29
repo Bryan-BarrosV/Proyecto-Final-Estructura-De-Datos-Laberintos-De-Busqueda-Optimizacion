@@ -9,34 +9,48 @@ import java.util.*;
 
 public class MazeSolverBFS implements MazeSolver {
 
+    private static final int[][] DIRECCIONES = {
+            {0, 1}, {1, 0}, {0, -1}, {-1, 0}
+    };
+
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
+        long t0 = System.currentTimeMillis();
+
         int filas = laberinto.length;
         int columnas = laberinto[0].length;
-        boolean[][] visitado = new boolean[filas][columnas];
-        Map<Cell, Cell> padre = new HashMap<>();
+
+        int[][] pasosMemo = new int[filas][columnas];
+        for (int[] fila : pasosMemo) {
+            Arrays.fill(fila, Integer.MAX_VALUE);
+        }
+
+        pasosMemo[inicio.getFila()][inicio.getColumna()] = 0;
 
         Queue<Cell> cola = new LinkedList<>();
         cola.add(inicio);
-        visitado[inicio.getFila()][inicio.getColumna()] = true;
 
-        int[][] direcciones = {{0,1}, {1,0}, {0,-1}, {-1,0}};
-        Cell actual = null;
+        Map<Cell, Cell> padre = new HashMap<>();
 
         while (!cola.isEmpty()) {
-            actual = cola.poll();
-            if (actual.equals(fin)) break;
+            Cell actual = cola.poll();
+            int i = actual.getFila();
+            int j = actual.getColumna();
 
-            for (int[] dir : direcciones) {
-                int nuevaFila = actual.getFila() + dir[0];
-                int nuevaColumna = actual.getColumna() + dir[1];
+            for (int[] dir : DIRECCIONES) {
+                int ni = i + dir[0];
+                int nj = j + dir[1];
 
-                if (nuevaFila >= 0 && nuevaFila < filas && nuevaColumna >= 0 && nuevaColumna < columnas) {
-                    if (!visitado[nuevaFila][nuevaColumna] && laberinto[nuevaFila][nuevaColumna] != CellState.WALL) {
-                        Cell vecino = new Cell(nuevaFila, nuevaColumna, laberinto[nuevaFila][nuevaColumna]);
-                        cola.add(vecino);
-                        visitado[nuevaFila][nuevaColumna] = true;
+                if (ni >= 0 && ni < filas && nj >= 0 && nj < columnas &&
+                        laberinto[ni][nj] != CellState.WALL) {
+
+                    int nuevoCosto = pasosMemo[i][j] + 1;
+
+                    if (nuevoCosto < pasosMemo[ni][nj]) {
+                        pasosMemo[ni][nj] = nuevoCosto;
+                        Cell vecino = new Cell(ni, nj, laberinto[ni][nj]);
                         padre.put(vecino, actual);
+                        cola.add(vecino);
                     }
                 }
             }
@@ -45,13 +59,20 @@ public class MazeSolverBFS implements MazeSolver {
         List<Cell> camino = new ArrayList<>();
         int pasos = 0;
 
-        if (actual != null && actual.equals(fin)) {
-            for (Cell c = fin; c != null; c = padre.get(c)) {
-                camino.add(0, c);
+        if (pasosMemo[fin.getFila()][fin.getColumna()] != Integer.MAX_VALUE) {
+            Cell actual = fin;
+            while (actual != null && !actual.equals(inicio)) {
+                camino.add(0, actual);
+                actual = padre.get(actual);
                 pasos++;
             }
+            camino.add(0, inicio);
+            pasos++;
         }
 
-        return new SolveResults(camino, pasos, 0); // tiempo real lo mide el botón
+        long t1 = System.currentTimeMillis();
+        long tiempoTotal = t1 - t0;
+
+        return new SolveResults(camino, pasos, tiempoTotal);
     }
 }

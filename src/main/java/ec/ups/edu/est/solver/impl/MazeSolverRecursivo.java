@@ -1,8 +1,8 @@
 package ec.ups.edu.est.solver.impl;
 
-import  ec.ups.edu.est.models.Cell;
-import  ec.ups.edu.est.models.CellState;
-import  ec.ups.edu.est.models.SolveResults;
+import ec.ups.edu.est.models.Cell;
+import ec.ups.edu.est.models.CellState;
+import ec.ups.edu.est.models.SolveResults;
 import ec.ups.edu.est.solver.MazeSolver;
 
 import java.util.ArrayList;
@@ -18,6 +18,8 @@ public class MazeSolverRecursivo implements MazeSolver {
 
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
+        long inicioTiempo = System.currentTimeMillis();
+
         filas = laberinto.length;
         columnas = laberinto[0].length;
         visitado = new boolean[filas][columnas];
@@ -26,11 +28,15 @@ public class MazeSolverRecursivo implements MazeSolver {
 
         buscar(laberinto, inicio.getFila(), inicio.getColumna(), fin);
 
-        return new SolveResults(camino, camino.size(), 0);
+        long finTiempo = System.currentTimeMillis(); // ⏱️ Fin
+        long tiempoTotal = finTiempo - inicioTiempo;
+
+        return new SolveResults(camino, camino.size(), tiempoTotal);
     }
 
     private void buscar(CellState[][] laberinto, int i, int j, Cell fin) {
-        if (i < 0 || i >= filas || j < 0 || j >= columnas || visitado[i][j] || laberinto[i][j] == CellState.WALL || encontrado) {
+        if (i < 0 || i >= filas || j < 0 || j >= columnas ||
+                visitado[i][j] || laberinto[i][j] == CellState.WALL || encontrado) {
             return;
         }
 
@@ -44,10 +50,11 @@ public class MazeSolverRecursivo implements MazeSolver {
 
         buscar(laberinto, i, j + 1, fin);
         buscar(laberinto, i + 1, j, fin);
+        buscar(laberinto, i, j - 1, fin);
+        buscar(laberinto, i - 1, j, fin);
 
         if (!encontrado) {
             camino.remove(camino.size() - 1);
         }
     }
 }
-

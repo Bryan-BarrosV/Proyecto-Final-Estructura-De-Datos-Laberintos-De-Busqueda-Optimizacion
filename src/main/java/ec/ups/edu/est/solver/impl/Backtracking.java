@@ -4,10 +4,7 @@ import ec.ups.edu.est.models.Cell;
 import ec.ups.edu.est.models.CellState;
 import ec.ups.edu.est.models.SolveResults;
 import ec.ups.edu.est.solver.MazeSolver;
-import ec.ups.edu.est.views.MazePanel;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,75 +14,88 @@ public class Backtracking implements MazeSolver {
             {-1, 0}, {1, 0}, {0, -1}, {0, 1}
     };
 
-    private boolean[][]  visitado;
-    private List<Cell> mejorCamino;
-    private List<Cell> caminoActual;
-    private MazePanel mazePanel;
-    private boolean animacion;
-
-    public Backtracking() {
-        this.animacion = false;
-    }
-
-    public Backtracking(MazePanel panel) {
-        this.mazePanel = panel;
-        this.animacion = true;
-    }
+    private int[][] memo;
+    private int filas, columnas;
 
     @Override
     public SolveResults resolver(CellState[][] matriz, Cell inicio, Cell fin) {
-        int filas = matriz.length;
-        int columnas = matriz[0].length;
+        long inicioTiempo = System.currentTimeMillis();
 
-        visitado = new boolean[filas][columnas];
-        mejorCamino = new ArrayList<>();
-        caminoActual = new ArrayList<>();
+        filas = matriz.length;
+        columnas = matriz[0].length;
+        memo = new int[filas][columnas];
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                memo[i][j] = -1;
+            }
+        }
 
-        backtrack(matriz, inicio.getFila(), inicio.getColumna(), fin);
+        int pasos = dp(matriz, inicio.getFila(), inicio.getColumna(), fin);
 
-        return new SolveResults(mejorCamino.size(), mejorCamino);
+        List<Cell> camino = pasos == Integer.MAX_VALUE
+                ? new ArrayList<>()
+                : reconstruirCamino(matriz, inicio, fin);
+
+        long finTiempo = System.currentTimeMillis(); // ⏱️ Tiempo final
+        long tiempoTotal = finTiempo - inicioTiempo;
+
+        return new SolveResults(camino, camino.size(), tiempoTotal);
     }
 
-    private void backtrack(CellState[][] matriz, int i, int j, Cell fin) {
-        if (i < 0 || j < 0 || i >= matriz.length || j >= matriz[0].length) return;
-        if (matriz[i][j] == CellState.WALL || visitado[i][j]) return;
-
-        visitado[i][j] = true;
-        Cell actual = new Cell(i, j, matriz[i][j]);
-        caminoActual.add(actual);
-
-        if (animacion) pintarCelda(i, j, Color.CYAN);
+    private int dp(CellState[][] matriz, int i, int j, Cell fin) {
+        if (i < 0 || j < 0 || i >= filas || j >= columnas || matriz[i][j] == CellState.WALL) {
+            return Integer.MAX_VALUE;
+        }
 
         if (i == fin.getFila() && j == fin.getColumna()) {
-            if (mejorCamino.isEmpty() || caminoActual.size() < mejorCamino.size()) {
-                mejorCamino = new ArrayList<>(caminoActual);
-            }
-        } else {
-            for (int[] d : DIRECCIONES) {
-                backtrack(matriz, i + d[0], j + d[1], fin);
+            return 0;
+        }
+
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+
+        matriz[i][j] = CellState.WALL;
+        int minPaso = Integer.MAX_VALUE;
+
+        for (int[] dir : DIRECCIONES) {
+            int ni = i + dir[0], nj = j + dir[1];
+            int pasos = dp(matriz, ni, nj, fin);
+            if (pasos != Integer.MAX_VALUE) {
+                minPaso = Math.min(minPaso, 1 + pasos);
             }
         }
 
-        caminoActual.remove(caminoActual.size() - 1);
-        visitado[i][j] = false;
-
-        if (animacion) pintarCelda(i, j, Color.LIGHT_GRAY);
+        matriz[i][j] = CellState.EMPTY;
+        memo[i][j] = minPaso;
+        return minPaso;
     }
 
-    private void pintarCelda(int i, int j, Color color) {
-        if (mazePanel == null) return;
+    private List<Cell> reconstruirCamino(CellState[][] matriz, Cell inicio, Cell fin) {
+        List<Cell> camino = new ArrayList<>();
+        int i = inicio.getFila(), j = inicio.getColumna();
+        camino.add(new Cell(i, j, matriz[i][j]));
 
-        SwingUtilities.invokeLater(() -> {
-            Color actual = mazePanel.getCeldaColor(i, j);
-            if (!actual.equals(Color.GREEN) && !actual.equals(Color.RED)) {
-                mazePanel.setCeldaColor(i, j, color);
+        while (!(i == fin.getFila() && j == fin.getColumna())) {
+            int mejor = memo[i][j];
+            boolean encontrado = false;
+
+            for (int[] dir : DIRECCIONES) {
+                int ni = i + dir[0], nj = j + dir[1];
+                if (ni >= 0 && nj >= 0 && ni < filas && nj < columnas && memo[ni][nj] != -1) {
+                    if (memo[ni][nj] == mejor - 1) {
+                        camino.add(new Cell(ni, nj, matriz[ni][nj]));
+                        i = ni;
+                        j = nj;
+                        encontrado = true;
+                        break;
+                    }
+                }
             }
-        });
 
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            if (!encontrado) break;
         }
+
+        return camino;
     }
 }

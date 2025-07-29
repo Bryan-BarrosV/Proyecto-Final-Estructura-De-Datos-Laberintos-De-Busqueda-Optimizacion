@@ -61,7 +61,7 @@ public class MazePanel extends JPanel {
                 if (celda.getBackground().equals(Color.BLACK)) {
                     celda.setBackground(Color.WHITE); // desactiva muro
                 } else {
-                    celda.setBackground(Color.BLACK); // activa muro
+                    celda.setBackground(Color.BLACK);
                 }
                 break;
         }

@@ -18,6 +18,7 @@ public class MazeSolverRecursivoCompleto implements MazeSolver {
 
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
+        long inicioTiempo = System.currentTimeMillis();
         filas = laberinto.length;
         columnas = laberinto[0].length;
         visitado = new boolean[filas][columnas];
@@ -26,7 +27,10 @@ public class MazeSolverRecursivoCompleto implements MazeSolver {
 
         buscar(laberinto, inicio.getFila(), inicio.getColumna(), fin);
 
-        return new SolveResults(camino, camino.size(), 0); // tiempo lo mide la GUI
+        long finTiempo = System.currentTimeMillis();
+        long tiempoTotal = finTiempo - inicioTiempo;
+
+        return new SolveResults(camino, camino.size(), tiempoTotal);
     }
 
     private void buscar(CellState[][] laberinto, int i, int j, Cell fin) {
@@ -40,15 +44,13 @@ public class MazeSolverRecursivoCompleto implements MazeSolver {
             encontrado = true;
             return;
         }
-
-        // 4 direcciones
-        buscar(laberinto, i - 1, j, fin); // arriba
-        buscar(laberinto, i + 1, j, fin); // abajo
-        buscar(laberinto, i, j - 1, fin); // izquierda
-        buscar(laberinto, i, j + 1, fin); // derecha
+        buscar(laberinto, i - 1, j, fin);
+        buscar(laberinto, i + 1, j, fin);
+        buscar(laberinto, i, j - 1, fin);
+        buscar(laberinto, i, j + 1, fin);
 
         if (!encontrado) {
-            camino.remove(camino.size() - 1); // quitar si no es parte de la solución
+            camino.remove(camino.size() - 1);
         }
     }
 }
