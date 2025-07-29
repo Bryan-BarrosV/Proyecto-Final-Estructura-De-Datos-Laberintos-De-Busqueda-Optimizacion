@@ -240,4 +240,19 @@ public class MazePanel extends JPanel {
         celdas[i][j].setOpaque(true);
         celdas[i][j].setBorderPainted(false);
     }
+    /**
+     * Limpia únicamente la ruta y el recorrido visualizados en el laberinto,
+     * manteniendo las celdas de inicio, fin y muros.
+     */
+    public void limpiarRuta() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                Color color = celdas[i][j].getBackground();
+                if (color.equals(Color.BLUE) || color.equals(Color.LIGHT_GRAY)) {
+                    celdas[i][j].setBackground(Color.WHITE);
+                }
+            }
+        }
+        repaint();
+    }
 }

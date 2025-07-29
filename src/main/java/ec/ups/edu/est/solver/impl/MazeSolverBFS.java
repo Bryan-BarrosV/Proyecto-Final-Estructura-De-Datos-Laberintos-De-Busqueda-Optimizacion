@@ -9,25 +9,26 @@ import java.util.*;
 
 /**
  * Implementación del algoritmo Breadth-First Search (BFS) para la resolución de laberintos.
- * Este algoritmo explora el laberinto en anchura y garantiza encontrar el camino más corto,
- * en términos de cantidad de pasos, entre dos celdas.
+ * BFS garantiza encontrar el camino más corto (en cantidad de pasos) desde la celda de inicio
+ * hasta la celda de destino, siempre que exista una ruta accesible.
  */
 public class MazeSolverBFS implements MazeSolver {
 
     /**
-     * Conjunto de direcciones de movimiento: derecha, abajo, izquierda, arriba.
+     * Direcciones válidas de movimiento: derecha, abajo, izquierda, arriba.
+     * Estas se expresan como desplazamientos relativos en la matriz.
      */
     private static final int[][] DIRECCIONES = {
             {0, 1}, {1, 0}, {0, -1}, {-1, 0}
     };
 
     /**
-     * Resuelve el laberinto utilizando el algoritmo BFS desde la celda de inicio hasta la celda de fin.
+     * Resuelve el laberinto aplicando el algoritmo BFS.
      *
-     * @param laberinto matriz de estados del laberinto
-     * @param inicio    celda de inicio del recorrido
-     * @param fin       celda de destino del recorrido
-     * @return un objeto {@link SolveResults} que contiene el camino, pasos y tiempo de ejecución
+     * @param laberinto matriz de estados que representa el laberinto
+     * @param inicio celda de partida
+     * @param fin celda objetivo
+     * @return objeto {@link SolveResults} con el camino encontrado, recorrido completo, pasos y tiempo
      */
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
@@ -47,9 +48,12 @@ public class MazeSolverBFS implements MazeSolver {
         cola.add(inicio);
 
         Map<Cell, Cell> padre = new HashMap<>();
+        List<Cell> recorrido = new ArrayList<>();
 
         while (!cola.isEmpty()) {
             Cell actual = cola.poll();
+            recorrido.add(actual);
+
             int i = actual.getFila();
             int j = actual.getColumna();
 
@@ -89,6 +93,6 @@ public class MazeSolverBFS implements MazeSolver {
         long t1 = System.currentTimeMillis();
         long tiempoTotal = t1 - t0;
 
-        return new SolveResults(camino, pasos, tiempoTotal);
+        return new SolveResults(camino, recorrido, pasos, tiempoTotal);
     }
 }

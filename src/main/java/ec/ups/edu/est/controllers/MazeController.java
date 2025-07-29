@@ -77,9 +77,19 @@ public class MazeController implements ActionListener {
             dialogResultados.setVisible(true);
         } else if (src == frame.getMenuSalir()) {
             System.exit(0);
-        }else if (src == frame.getMenuAutores()) {
-                ec.ups.edu.est.views.AutoresDialog.mostrar(frame);
-            }
+        } else if (src == frame.getMenuAutores()) {
+            String mensaje = """
+                Proyecto: Laberinto 
+                Autores:
+                - Valeria Borja - DianitaB
+                - Keyra Carvajal - KeyraCarvajajl
+                - Bryan Barros - Bryan-BarrosV
+                - Erika Collaguazo - Erika-colla
+
+                ¡Gracias por utilizar nuestra aplicación!
+                """;
+            JOptionPane.showMessageDialog(frame, mensaje, "Información del Proyecto", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
@@ -87,6 +97,7 @@ public class MazeController implements ActionListener {
      * con animación en la interfaz gráfica.
      */
     private void resolverLaberinto() {
+        mazePanel.limpiarRuta();
         String algoritmo = (String) frame.getComboAlgoritmos().getSelectedItem();
         CellState[][] matriz = mazePanel.getMatrizEstados();
         Cell inicio = mazePanel.getInicio();
@@ -155,7 +166,7 @@ public class MazeController implements ActionListener {
                                 ((Timer) e2.getSource()).stop();
 
                                 JOptionPane.showMessageDialog(frame,
-                                        "Algoritmo completado en " + tiempoTotal + " ns\n🔢 Pasos: " + resultado.getPasos(),
+                                        "✅ Algoritmo completado en " + tiempoTotal + " ns\n🔢 Pasos: " + resultado.getPasos(),
                                         "Resultado",
                                         JOptionPane.INFORMATION_MESSAGE);
 
@@ -222,7 +233,7 @@ public class MazeController implements ActionListener {
             }
             pasoActual++;
         } else {
-            JOptionPane.showMessageDialog(frame, "Camino completado paso a paso.");
+            JOptionPane.showMessageDialog(frame, "✅ Camino completado paso a paso.");
             caminoPasoAPaso = null;
             pasoActual = 0;
         }
