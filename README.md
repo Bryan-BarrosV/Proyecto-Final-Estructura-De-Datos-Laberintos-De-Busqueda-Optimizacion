@@ -8,7 +8,7 @@
 
 **Integrantes:** Keyra Carvajal / Diana Borja / Bryan Barros / Erika Collaguazo
 
-**Correo institucional:**  kcarvajalc5@est.ups.edu.ec /  ----@est.ups.edu.ec /  bbarrosv@est.ups.edu.ec / ecollaguazo@est.ups.edu.ec
+**Correo institucional:**  kcarvajalc5@est.ups.edu.ec /  dborjas2@est.ups.edu.ec /  bbarrosv@est.ups.edu.ec / ecollaguazo@est.ups.edu.ec
 
 ---
 
@@ -57,17 +57,10 @@ Algoritmo de exploración exhaustiva que prueba todas las rutas posibles. Marca 
 - Biblioteca de gráficas: **JFreeChart**
 - Librerias: ** jcommon-1.0.2.4.jar ** */jfreechart-1.5.6.jar*
 ### Diagrama UML
--
--
--
--
-
-
+![Imagen 1.0](Diag1.jpg)
+![Imagen 1.1.1](Diagram2.jpg)
 **Explicación:**
-
--
--
--
+El diagrama de clases ilustra la estructura del proyecto basado en los patrones MVC y DAO. Incluye modelos como Cell, SolveResults y AlgorithmResult, una interfaz común MazeSolver con múltiples implementaciones algorítmicas (BFS, DFS, recursivos, backtracking), y vistas Swing como MazePanel y MazeFrame. El controlador MazeController coordina la lógica entre modelo y vista, mientras que los resultados se almacenan mediante AlgorithmResultDAOFile. Esta organización facilita la mantenibilidad, la animación del recorrido y la extensión de nuevos algoritmos.
 ## Capturas de interfaz
 ---
 ## Backtracking
