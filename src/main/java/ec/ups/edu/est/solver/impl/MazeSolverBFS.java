@@ -7,12 +7,28 @@ import ec.ups.edu.est.solver.MazeSolver;
 
 import java.util.*;
 
+/**
+ * Implementación del algoritmo Breadth-First Search (BFS) para la resolución de laberintos.
+ * Este algoritmo explora el laberinto en anchura y garantiza encontrar el camino más corto,
+ * en términos de cantidad de pasos, entre dos celdas.
+ */
 public class MazeSolverBFS implements MazeSolver {
 
+    /**
+     * Conjunto de direcciones de movimiento: derecha, abajo, izquierda, arriba.
+     */
     private static final int[][] DIRECCIONES = {
             {0, 1}, {1, 0}, {0, -1}, {-1, 0}
     };
 
+    /**
+     * Resuelve el laberinto utilizando el algoritmo BFS desde la celda de inicio hasta la celda de fin.
+     *
+     * @param laberinto matriz de estados del laberinto
+     * @param inicio    celda de inicio del recorrido
+     * @param fin       celda de destino del recorrido
+     * @return un objeto {@link SolveResults} que contiene el camino, pasos y tiempo de ejecución
+     */
     @Override
     public SolveResults resolver(CellState[][] laberinto, Cell inicio, Cell fin) {
         long t0 = System.currentTimeMillis();
