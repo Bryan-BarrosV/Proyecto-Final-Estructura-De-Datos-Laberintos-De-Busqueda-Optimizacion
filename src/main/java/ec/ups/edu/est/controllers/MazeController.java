@@ -58,17 +58,7 @@ public class MazeController implements ActionListener {
         } else if (src == frame.getMenuSalir()) {
             System.exit(0);
         } else if (src == frame.getMenuAutores()) {
-            String mensaje = """
-                Proyecto: Laberinto 
-                Autores:
-                - Valeria Borja - DianitaB
-                - Keyra Carvajal - KeyraCarvajajl
-                - Bryan Barros - Bryan-BarrosV
-                - Erika Collaguazo - Erika-colla
-
-                ¡Gracias por utilizar nuestra aplicación!
-                """;
-            JOptionPane.showMessageDialog(frame, mensaje, "Información del Proyecto", JOptionPane.INFORMATION_MESSAGE);
+            ec.ups.edu.est.views.AutoresDialog.mostrar(frame);
         }
     }
 
