@@ -18,9 +18,6 @@ import ec.ups.edu.est.views.MazeFrame;
  * Se utiliza {@code SwingUtilities.invokeLater} para asegurar que
  * la GUI se cree y maneje correctamente en el hilo de eventos de Swing.
  * </p>
- *
- * @author TuNombre
- * @version 1.0
  */
 public class MazeAPP {
     /**
