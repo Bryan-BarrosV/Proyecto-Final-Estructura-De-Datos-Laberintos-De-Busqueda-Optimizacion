@@ -1,4 +1,4 @@
-![Logo de la universidad](Logo.png)
+![Logo de la universidad](src/main/resources/Logo.png)
 # Universidad Politécnica Salesiana
 
 ## Carrera de Computación
@@ -57,25 +57,25 @@ Algoritmo de exploración exhaustiva que prueba todas las rutas posibles. Marca 
 - Biblioteca de gráficas: **JFreeChart**
 - Librerias: ** jcommon-1.0.2.4.jar ** */jfreechart-1.5.6.jar*
 ### Diagrama UML
-![Imagen 1.0](Diag1.jpg)
-![Imagen 1.1.1](Diagram2.jpg)
+![Imagen 1.0](src/main/resources/Diag1.jpg)
+![Imagen 1.1.1](src/main/resources/Diagram2.jpg)
 **Explicación:**
 El diagrama de clases ilustra la estructura del proyecto basado en los patrones MVC y DAO. Incluye modelos como Cell, SolveResults y AlgorithmResult, una interfaz común MazeSolver con múltiples implementaciones algorítmicas (BFS, DFS, recursivos, backtracking), y vistas Swing como MazePanel y MazeFrame. El controlador MazeController coordina la lógica entre modelo y vista, mientras que los resultados se almacenan mediante AlgorithmResultDAOFile. Esta organización facilita la mantenibilidad, la animación del recorrido y la extensión de nuevos algoritmos.
 ## Capturas de interfaz
 ---
 ## Backtracking
-![Imagen 1.1](Backtracking.png)
+![Imagen 1.1](src/main/resources/Backtracking.png)
 ---
 ## BFS
-![Imagen 2.1](DFS.png)
+![Imagen 2.1](src/main/resources/DFS.png)
 
 
 ## Ejemplo de código:
 ### Algoritmo Backtracking
-![Imagen 1](Backtracking1.png)
-![Imagen 2](Backtracking2.png)
+![Imagen 1](src/main/resources/Backtracking1.png)
+![Imagen 2](src/main/resources/Backtracking2.png)
 ![Imagen 3](Backtracking3.png)
-![Imagen 4](Backtracking4.png)
+![Imagen 4](src/main/resources/Backtracking4.png)
 
 ### Explicación
 
@@ -91,10 +91,10 @@ sistema explora el laberinto, mostrando primero el recorrido en gris y luego el 
 
 ---
 ### Algoritmo BFS (Breadth-First Search)
-![BFS paso 1](BFS1.png)
-![BFS paso 2](BFS2.png)
-![BFS paso 3](BFS3.png)
-![BFS paso 4](BFS4.png)
+![BFS paso 1](src/main/resources/BFS1.png)
+![BFS paso 2](src/main/resources/BFS2.png)
+![BFS paso 3](src/main/resources/BFS3.png)
+![BFS paso 4](src/main/resources/BFS4.png)
 ### Explicación
 BFS (Breadth-First Search) o Búsqueda en Anchura es un algoritmo que recorre el laberinto 
 expandiendo primero todas las celdas cercanas al punto de inicio antes de avanzar más lejos. 
