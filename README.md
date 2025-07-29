@@ -8,7 +8,7 @@
 
 **Integrantes:** Keyra Carvajal / Diana Borja / Bryan Barros / Erika Collaguazo
 
-**Correo institucional:**  kcarvajalc5@est.ups.edu.ec /  ----@est.ups.edu.ec /  ----@est.ups.edu.ec / ecollaguazo@est.ups.edu.ec
+**Correo institucional:**  kcarvajalc5@est.ups.edu.ec /  ----@est.ups.edu.ec /  bbarrosv@est.ups.edu.ec / ecollaguazo@est.ups.edu.ec
 
 ---
 
@@ -55,7 +55,7 @@ Algoritmo de exploración exhaustiva que prueba todas las rutas posibles. Marca 
 - IDE: **IntelliJ IDEA**
 - Control de versiones: **Git**
 - Biblioteca de gráficas: **JFreeChart**
-- Librerias: ** --- **
+- Librerias: ** jcommon-1.0.2.4.jar ** */jfreechart-1.5.6.jar*
 ### Diagrama UML
 -
 -
@@ -68,11 +68,13 @@ Algoritmo de exploración exhaustiva que prueba todas las rutas posibles. Marca 
 -
 -
 -
-### Capturas de interfaz
-> aquí 2 capturas de pantalla del funcionamiento.
-
-- **Laberinto 1
-- **Laberinto 2
+## Capturas de interfaz
+---
+## Backtracking
+![Imagen 1.1](Backtracking.png)
+---
+## BFS
+![Imagen 2.1](DFS.png)
 
 
 ## Ejemplo de código:
@@ -111,19 +113,63 @@ rápidas y eficientes, especialmente cuando se necesita minimizar la distancia d
 ## 4. Conclusiones por estudiantes
 
 ### ✨ Erika Collaguazo
+El algoritmo más completo y visualmente didáctico fue Backtracking, ya que permite observar tanto la exploración como los retrocesos del recorrido. Aunque no es el más eficiente en términos de tiempo, resulta ideal para comprender cómo se van construyendo y descartando las rutas.
+Desde el punto de vista de rendimiento, el algoritmo BFS fue el más óptimo: encuentra el camino más corto con rapidez y precisión, sin necesidad de retrocesos innecesarios. Esto lo convierte en la mejor opción cuando se prioriza eficiencia.
 
+The most complete and visually didactic algorithm was Backtracking, as it allows observing both the path exploration and the backtracking process. Although it is not the most time-efficient, it is ideal for understanding how paths are constructed and discarded.
+From a performance perspective, BFS was the most optimal algorithm: it finds the shortest path quickly and accurately without unnecessary backtracking. This makes it the best option when efficiency is a priority.
 
 ### ✨ Bryan Barros
+DFS puede llegar a una solución de manera rápida, pero no siempre garantiza que sea la más corta. Me pareció muy interesante ver cómo su comportamiento se ve afectado dependiendo de la distribución del laberinto, especialmente cuando hay muchos caminos posibles.
+En cuanto a rendimiento, considero que el algoritmo Recursivo 4D + Backtracking logra un buen balance entre encontrar soluciones completas y mantener un tiempo de ejecución razonable.
 
+DFS can reach a solution quickly, but it does not always guarantee the shortest path. I found it very interesting to see how its behavior changes depending on the maze’s layout, especially when there are many possible paths.
+In terms of performance, I believe the 4D Recursive + Backtracking algorithm strikes a good balance between completeness and reasonable execution time.
 
 ### ✨ Diana Borja
+Durante las pruebas realizadas, el algoritmo BFS demostró ser el más óptimo en laberintos grandes, gracias a su capacidad para explorar de forma ordenada y hallar el camino más corto sin repetir pasos.
+Aunque Backtracking es menos eficiente en tiempo, su capacidad para mostrar paso a paso los retrocesos lo vuelve muy útil para visualizar y comprender el proceso de resolución, especialmente con estudiantes o en entornos educativos.
+
+During the tests, BFS proved to be the most optimal in large mazes due to its ability to explore systematically and find the shortest path without repeating steps.
+Although Backtracking is less efficient in terms of time, its ability to show each step and every backtrack makes it very useful for visualizing and understanding the solving process, especially in educational environments.
 
 
 ### ✨ Keyra Carvajal
 
+Este proyecto fue una oportunidad para comprender cómo diversos algoritmos pueden abordar un mismo problema desde diferentes estrategias. La experiencia me ayudó a entender mejor el valor de la recursión y cómo su aplicación puede influir notablemente en el rendimiento según la estructura del laberinto.
+Desde mi análisis, el algoritmo BFS fue el más óptimo por su rapidez y su capacidad para encontrar rutas eficientes. Sin embargo, la implementación del Backtracking me permitió visualizar con mayor claridad el proceso de resolución y los errores que se corrigen durante la búsqueda.
+
+This project was an opportunity to understand how different algorithms can approach the same problem using different strategies. The experience helped me better grasp the value of recursion and how its use can significantly affect performance depending on the maze structure.
+Based on my analysis, BFS was the most optimal algorithm due to its speed and efficiency in finding solutions. However, implementing Backtracking allowed me to clearly visualize the solving process and better understand the corrections made during the search.
+
 
 ## 5. Recomendaciones
 
+-	Validar siempre la posición del inicio y fin antes de ejecutar el algoritmo.
+-   Evitar laberintos demasiado grandes si no se optimiza la memoria.
+-	Mostrar leyenda de colores para mejorar la experiencia del usuario.
+-	Separar la lógica de resolución del código de la interfaz para facilitar el mantenimiento.
+-	Comentar claramente cada parte del código para futuras modificaciones.
+
+- Carefully analyze the maze structure before choosing an algorithm.
+- Start testing with small mazes before scaling up to larger ones.
+- Visual debugging helps a lot—take advantage of step-by-step mode.
+- Use descriptive comments and clean code to ease collaboration.
+- Explore Java Swing components to enhance user experience.
+- Practice tracing recursive calls manually to understand algorithm flow.
+
 
 ## 6. Aplicaciones futuras
+- Agregar un sistema de niveles o retos con laberintos de diferente tamaño y dificultad.
+- Permitir guardar y cargar laberintos personalizados desde archivos.
+- Incluir una opción para generar laberintos aleatorios automáticamente.
+- Añadir animaciones más suaves para mejorar la visualización del recorrido.
+- Incorporar sonido o efectos visuales al completar el laberinto.
+- Implementar un historial de resultados para ver mejoras en tiempo o pasos.
 
+-	Add a system of levels with mazes of increasing difficulty.
+-	Enable saving and loading custom mazes from files.
+-	Include an option to generate random mazes.
+-	Add smoother animations for visual feedback.
+-	Integrate sound effects or visual indicators for start/end points.
+-	Implement a history or scoreboard to track performance.
