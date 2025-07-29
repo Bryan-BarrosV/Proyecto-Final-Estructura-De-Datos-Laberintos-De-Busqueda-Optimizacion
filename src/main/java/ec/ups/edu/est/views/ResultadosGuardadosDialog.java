@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase que representa una ventana para mostrar los resultados guardados
+ * Clase que representa un cuadro de diálogo modal para mostrar,
+ * graficar, limpiar y exportar resultados guardados de algoritmos
+ * de resolución de laberintos.
  */
 public class ResultadosGuardadosDialog extends JDialog {
 
@@ -23,26 +25,26 @@ public class ResultadosGuardadosDialog extends JDialog {
     private final List<AlgorithmResult> resultados;
 
     /**
-     * Constructor en el que se configura el diseño de la ventana, la tabla, los botones y
-     * la lista para almacenar los resultados.
+     * Constructor que inicializa el diálogo con la interfaz de tabla,
+     * botones y configuración básica.
      *
-     * @param parent
+     * @param parent Ventana principal que actúa como padre de este diálogo.
      */
     public ResultadosGuardadosDialog(JFrame parent) {
-        super(parent, "Resultados Guardados", true);
+        super(parent, "📊 Resultados Guardados", true);
         setSize(650, 350);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
         resultados = new ArrayList<>();
 
-        modelo = new DefaultTableModel(new Object[]{"Algoritmo", "Pasos", "Tiempo (ms)", "Fecha"}, 0);
+        modelo = new DefaultTableModel(new Object[]{"Algoritmo", "Celdas Camino", "Tiempo (ns)", "Fecha"}, 0);
         tabla = new JTable(modelo);
         JScrollPane scroll = new JScrollPane(tabla);
 
-        JButton btnGraficar = new JButton("Graficar Resultados");
-        JButton btnLimpiar = new JButton("Limpiar Resultados");
-        JButton btnCerrar = new JButton("Cerrar");
+        JButton btnGraficar = new JButton("📈 Graficar Resultados");
+        JButton btnLimpiar = new JButton("🧹 Limpiar Resultados");
+        JButton btnCerrar = new JButton("❌ Cerrar");
 
         btnGraficar.addActionListener(e -> mostrarGrafica());
         btnLimpiar.addActionListener(e -> limpiarResultados());
@@ -58,9 +60,9 @@ public class ResultadosGuardadosDialog extends JDialog {
     }
 
     /**
-     * Método que permite agregar un nuevo resultado a la tabla y a la lista.
+     * Agrega un nuevo resultado al listado y lo muestra en la tabla.
      *
-     * @param r el resultado del algoritmo ejecutado
+     * @param r Objeto AlgorithmResult que contiene la información del resultado.
      */
     public void agregarResultado(AlgorithmResult r) {
         resultados.add(r);
@@ -72,10 +74,10 @@ public class ResultadosGuardadosDialog extends JDialog {
         });
     }
 
-
     /**
-     * Método que permite guardar los resultados en un archivo CSV
-     * @param rutaArchivo ruta del archivo .csv
+     * Guarda todos los resultados actuales en un archivo CSV.
+     *
+     * @param rutaArchivo Ruta completa donde se desea guardar el archivo CSV.
      */
     public void guardarResultadosEnCSV(String rutaArchivo) {
         try (PrintWriter writer = new PrintWriter(rutaArchivo)) {
@@ -87,7 +89,7 @@ public class ResultadosGuardadosDialog extends JDialog {
                         r.getTiempoEjecucion(),
                         r.getFecha());
             }
-            System.out.println("Resultados guardados en: " + rutaArchivo);
+            System.out.println("✅ Resultados guardados en: " + rutaArchivo);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al guardar resultados.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -95,7 +97,7 @@ public class ResultadosGuardadosDialog extends JDialog {
     }
 
     /**
-     * Limpia tanto la tabla como la lista interna de los resultados.
+     * Elimina todos los resultados almacenados y borra las filas de la tabla.
      */
     private void limpiarResultados() {
         resultados.clear();
@@ -103,7 +105,8 @@ public class ResultadosGuardadosDialog extends JDialog {
     }
 
     /**
-     * Método que genera una grafica de líneas con los tiempos de ejecución.
+     * Genera una gráfica de líneas basada en los tiempos de ejecución
+     * de los algoritmos almacenados.
      */
     private void mostrarGrafica() {
         if (resultados.isEmpty()) {
@@ -130,6 +133,5 @@ public class ResultadosGuardadosDialog extends JDialog {
         graficoDialog.setLocationRelativeTo(this);
         graficoDialog.add(chartPanel);
         graficoDialog.setVisible(true);
-
     }
 }

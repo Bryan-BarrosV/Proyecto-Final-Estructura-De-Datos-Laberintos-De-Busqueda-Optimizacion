@@ -4,24 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Clase que representa la ventana principal de la aplicación del laberinto.
- * Contiene la interfaz gráfica para configurar, resolver y limpiar el laberinto
+ * Ventana principal de la aplicación del laberinto interactivo.
+ * Esta clase contiene el panel del laberinto, los controles de selección de algoritmos
+ * y los botones para ejecutar, limpiar y configurar el laberinto.
  */
 public class MazeFrame extends JFrame {
-    // Panel principal donde se dibuja el laberinto
+
     private MazePanel mazePanel;
-    // Controles de interacción.
     private JComboBox<String> comboAlgoritmos;
     private JButton btnResolver, btnPaso, btnLimpiar;
     private JButton btnInicio, btnFin, btnMuro;
-
-    // Ítems del menú
     private JMenuItem menuNuevo, menuResultados, menuSalir, menuAutores;
 
-
     /**
-     * Constructor que configura la ventana prinicipal del laberinto.
-     * Establece el diseño, colores, menús y componentes gráficos.
+     * Constructor principal que inicializa la ventana y sus componentes.
      */
     public MazeFrame() {
         setTitle("Laberinto Interactivo");
@@ -41,8 +37,8 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Crea y configura la barra de menús superior
-     * @return JMenuBar con opciones de Archivo y Ayuda.
+     * Crea la barra de menú con las opciones de archivo y ayuda.
+     * @return JMenuBar con menús y elementos configurados.
      */
     private JMenuBar crearMenu() {
         JMenuBar menuBar = new JMenuBar();
@@ -57,7 +53,7 @@ public class MazeFrame extends JFrame {
         menuArchivo.add(menuSalir);
 
         JMenu menuAyuda = new JMenu("Ayuda");
-        menuAutores = new JMenuItem("Acerca de");
+        menuAutores = new JMenuItem("Acerca de los autores");
         menuAyuda.add(menuAutores);
 
         menuBar.add(menuArchivo);
@@ -68,7 +64,7 @@ public class MazeFrame extends JFrame {
     private int filas, columnas;
 
     /**
-     * Solicita al usuario el número de filas y columnas del laberinto al iniciar la aplicación.
+     * Solicita al usuario las dimensiones del laberinto mediante diálogos.
      */
     private void pedirDimensiones() {
         filas = Integer.parseInt(JOptionPane.showInputDialog("Filas del laberinto:"));
@@ -76,7 +72,7 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Permite refedinir las dimensiones del laberinto y reconstruye toda la interfaz gráfica.
+     * Vuelve a crear el panel del laberinto con nuevas dimensiones proporcionadas por el usuario.
      */
     public void recrearMaze() {
         String filasStr = JOptionPane.showInputDialog(this, "Ingrese número de filas:");
@@ -103,7 +99,7 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Crea y agrega el panel del laberinto.
+     * Crea el panel del laberinto basado en las dimensiones especificadas.
      */
     private void crearMazePanel() {
         mazePanel = new MazePanel(filas, columnas);
@@ -113,8 +109,8 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Crea el panel lateral con botones para seleccionar el punto de inicio, fin y muros.
-     * @return JPanel con los botones correspondientes
+     * Crea el panel lateral con botones para definir el punto de inicio, fin y muros.
+     * @return JPanel configurado con botones laterales.
      */
     private JPanel crearPanelLateral() {
         JPanel lateral = new JPanel();
@@ -138,21 +134,21 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Crea el panel inferior con la selección de algoritmo y botones de control.
-     * @return JPanel con el comboBox y botones.
+     * Crea el panel inferior con los botones de acción y selección de algoritmo.
+     * @return JPanel configurado con botones de acción.
      */
     private JPanel crearPanelInferior() {
         JPanel inferior = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 12));
         inferior.setBackground(new Color(235, 232, 222));
 
         comboAlgoritmos = new JComboBox<>(new String[]{
-                "Recursivo","Recursivo Completo", "Recursivo Completo BT","BFS", "DFS", "Backtracking"
+                "Recursivo", "BFS", "DFS", "Recursivo 4D", "Recursivo 4D + BT", "Backtracking"
         });
         comboAlgoritmos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        btnResolver = crearBotonPlano("Resolver", new Color(60, 179, 113));
-        btnPaso = crearBotonPlano("Paso a paso", new Color(255, 165, 0));
-        btnLimpiar = crearBotonPlano("Limpiar", new Color(105, 105, 105));
+        btnResolver = crearBotonPlano("🧠 Resolver", new Color(60, 179, 113));
+        btnPaso = crearBotonPlano("👣 Paso a paso", new Color(255, 165, 0));
+        btnLimpiar = crearBotonPlano("🧼 Limpiar", new Color(105, 105, 105));
 
         inferior.add(new JLabel("Algoritmo:"));
         inferior.add(comboAlgoritmos);
@@ -164,10 +160,10 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Método auxiliar para crear botones personalizados sin bordes y con fondo de color.
+     * Crea un botón personalizado con estilo plano.
      * @param texto Texto del botón.
      * @param fondo Color de fondo del botón.
-     * @return JButton personalizado.
+     * @return JButton estilizado.
      */
     private JButton crearBotonPlano(String texto, Color fondo) {
         JButton btn = new JButton(texto);
@@ -183,8 +179,8 @@ public class MazeFrame extends JFrame {
     }
 
     /**
-     * Registra todos los eventos para los botones y elementos del menú.
-     * @param controlador Clase que implementa ActionListener.
+     * Registra los eventos del controlador para todos los botones y menús.
+     * @param controlador ActionListener que actuará como controlador de eventos.
      */
     public void registrarEventos(java.awt.event.ActionListener controlador) {
         btnResolver.addActionListener(controlador);
@@ -199,51 +195,99 @@ public class MazeFrame extends JFrame {
         menuAutores.addActionListener(controlador);
     }
 
-    // Métodos getter para los distintos componentes
+
+    /**
+     * Retorna el panel del laberinto que contiene las celdas.
+     * @return El objeto MazePanel actual.
+     */
     public MazePanel getMazePanel() {
         return mazePanel;
     }
 
+    /**
+     * Retorna el combo box con las opciones de algoritmos disponibles.
+     * @return JComboBox de selección de algoritmo.
+     */
     public JComboBox<String> getComboAlgoritmos() {
         return comboAlgoritmos;
     }
 
+    /**
+     * Retorna el botón para ejecutar la resolución del laberinto.
+     * @return JButton para resolver el laberinto.
+     */
     public JButton getBtnResolver() {
         return btnResolver;
     }
 
+    /**
+     * Retorna el botón para ejecutar el algoritmo paso a paso.
+     * @return JButton para ejecución paso a paso.
+     */
     public JButton getBtnPaso() {
         return btnPaso;
     }
 
+    /**
+     * Retorna el botón para limpiar el laberinto.
+     * @return JButton para limpiar las celdas del laberinto.
+     */
     public JButton getBtnLimpiar() {
         return btnLimpiar;
     }
 
+    /**
+     * Retorna el botón que permite seleccionar el punto de inicio.
+     * @return JButton para establecer la celda de inicio.
+     */
     public JButton getBtnInicio() {
         return btnInicio;
     }
 
+    /**
+     * Retorna el botón que permite seleccionar el punto de fin.
+     * @return JButton para establecer la celda de fin.
+     */
     public JButton getBtnFin() {
         return btnFin;
     }
 
+    /**
+     * Retorna el botón que permite activar/desactivar muros en el laberinto.
+     * @return JButton para modificar celdas como muros.
+     */
     public JButton getBtnMuro() {
         return btnMuro;
     }
 
+    /**
+     * Retorna el ítem de menú para agregar un nuevo laberinto.
+     * @return JMenuItem correspondiente a "Agregar nuevo laberinto".
+     */
     public JMenuItem getMenuNuevo() {
         return menuNuevo;
     }
 
+    /**
+     * Retorna el ítem de menú para ver los resultados guardados.
+     * @return JMenuItem correspondiente a "Ver tiempos de ejecución".
+     */
     public JMenuItem getMenuResultados() {
         return menuResultados;
     }
 
+    /**
+     * Retorna el ítem de menú para salir de la aplicación.
+     * @return JMenuItem correspondiente a "Salir".
+     */
     public JMenuItem getMenuSalir() {
         return menuSalir;
     }
 
+    /**
+     * Retorna el ítem de menú que muestra información sobre los autores.
+     * @return JMenuItem correspondiente a "Acerca de los autores".
+     */
     public JMenuItem getMenuAutores() {
         return menuAutores;
     }
