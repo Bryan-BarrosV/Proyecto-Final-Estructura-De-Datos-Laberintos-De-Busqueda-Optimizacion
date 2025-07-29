@@ -1,5 +1,8 @@
 package ec.ups.edu.est.models;
 
+/**
+ * Enumeración de posibles estados para una celda del laberinto.
+ */
 public enum CellState {
     EMPTY,    // Celda vacía
     WALL,     // Obstáculo
