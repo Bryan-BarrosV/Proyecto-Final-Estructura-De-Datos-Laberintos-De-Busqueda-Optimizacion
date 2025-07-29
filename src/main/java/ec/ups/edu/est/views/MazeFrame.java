@@ -142,13 +142,13 @@ public class MazeFrame extends JFrame {
         inferior.setBackground(new Color(235, 232, 222));
 
         comboAlgoritmos = new JComboBox<>(new String[]{
-                "Recursivo", "BFS", "DFS", "Recursivo 4D", "Recursivo 4D + BT", "Backtracking"
+                "Recursivo","Recursivo Completo","Recursivo Completo BT", "BFS", "DFS",   "Backtracking"
         });
         comboAlgoritmos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        btnResolver = crearBotonPlano("🧠 Resolver", new Color(60, 179, 113));
-        btnPaso = crearBotonPlano("👣 Paso a paso", new Color(255, 165, 0));
-        btnLimpiar = crearBotonPlano("🧼 Limpiar", new Color(105, 105, 105));
+        btnResolver = crearBotonPlano("Resolver", new Color(60, 179, 113));
+        btnPaso = crearBotonPlano("Paso a paso", new Color(255, 165, 0));
+        btnLimpiar = crearBotonPlano("Limpiar", new Color(105, 105, 105));
 
         inferior.add(new JLabel("Algoritmo:"));
         inferior.add(comboAlgoritmos);

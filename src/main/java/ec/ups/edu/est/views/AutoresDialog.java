@@ -10,6 +10,10 @@ import java.awt.*;
  */
 public class AutoresDialog extends JDialog {
 
+    /**
+     * Crea e inicializa la ventana de autores.
+     * @param parent La ventana principal desde la que se invoca este diálogo.
+     */
     public AutoresDialog(JFrame parent) {
         super(parent, "Autores del Proyecto: ", true);
         setSize(320, 300);
@@ -54,6 +58,13 @@ public class AutoresDialog extends JDialog {
         add(panelSur, BorderLayout.SOUTH);
     }
 
+    /**
+     * Crea un botón estilizado que representa un enlace a GitHub.
+     *
+     * @param texto    El nombre del usuario de GitHub.
+     * @param listener El listener que maneja el evento al hacer clic.
+     * @return El botón configurado.
+     */
     private JButton crearBoton(String texto, java.awt.event.ActionListener listener) {
         JButton boton = new JButton(texto);
         boton.setOpaque(false);
@@ -66,7 +77,11 @@ public class AutoresDialog extends JDialog {
         boton.addActionListener(listener);
         return boton;
     }
-
+    /**
+     * Método estático para mostrar el diálogo de autores.
+     *
+     * @param parent La ventana padre desde donde se muestra el diálogo.
+     */
     public static void mostrar(JFrame parent) {
         new AutoresDialog(parent).setVisible(true);
     }
